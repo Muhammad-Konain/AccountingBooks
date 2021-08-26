@@ -3,6 +3,7 @@ using AccountsAPI.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,8 @@ namespace AccountsAPI.Controllers
             if (currentyear != null)
             {
                 FinancialYearDto yeardto = new FinancialYearDto();
-                return Ok(_mapper.Map(currentyear, yeardto));
+                var result =JsonConvert.SerializeObject( _mapper.Map(currentyear, yeardto));
+                return Ok(result);
             }
             
             return NotFound();
