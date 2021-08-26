@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace AccountsAPI.Models
+namespace AccountsApp.Models
 {
-    public partial class FinancialYear
+    public class FinancialYear
     {
         public int Id { get; set; }
         public string Title { get; set; }

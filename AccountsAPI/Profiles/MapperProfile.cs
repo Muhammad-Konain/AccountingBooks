@@ -13,6 +13,8 @@ namespace AccountsAPI.Profiles
         public MapperProfile()
         {
             CreateMap<UserLoginDto, User>();
+            CreateMap<FinancialYearDto, FinancialYear>();
+            CreateMap<FinancialYear, FinancialYearDto>();
         }
     }
 }

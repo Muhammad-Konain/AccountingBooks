@@ -19,7 +19,6 @@ namespace AccountsAPI.Models
 
         public virtual DbSet<AccountTransaction> AccountTransactions { get; set; }
         public virtual DbSet<AccountType> AccountTypes { get; set; }
-        public virtual DbSet<AccountsBook> AccountsBooks { get; set; }
         public virtual DbSet<FinancialYear> FinancialYears { get; set; }
         public virtual DbSet<GeneralJournal> GeneralJournals { get; set; }
         public virtual DbSet<TAccount> TAccounts { get; set; }
@@ -83,24 +82,6 @@ namespace AccountsAPI.Models
                     .HasColumnName("title");
             });
 
-            modelBuilder.Entity<AccountsBook>(entity =>
-            {
-                entity.ToTable("Accounts_book");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Createddate)
-                    .HasColumnType("date")
-                    .HasColumnName("createddate");
-
-                entity.Property(e => e.FKFinancialyear).HasColumnName("fK_financialyear");
-
-                entity.HasOne(d => d.FKFinancialyearNavigation)
-                    .WithMany(p => p.AccountsBooks)
-                    .HasForeignKey(d => d.FKFinancialyear)
-                    .HasConstraintName("fk_accbook_fyear");
-            });
-
             modelBuilder.Entity<FinancialYear>(entity =>
             {
                 entity.ToTable("financial_year");
@@ -125,14 +106,7 @@ namespace AccountsAPI.Models
                     .HasColumnType("date")
                     .HasColumnName("entry_date");
 
-                entity.Property(e => e.FkAccountbook).HasColumnName("fk_accountbook");
-
                 entity.Property(e => e.FkVoucher).HasColumnName("fk_voucher");
-
-                entity.HasOne(d => d.FkAccountbookNavigation)
-                    .WithMany(p => p.GeneralJournals)
-                    .HasForeignKey(d => d.FkAccountbook)
-                    .HasConstraintName("fk_generaljournal_accountsbook");
 
                 entity.HasOne(d => d.FkVoucherNavigation)
                     .WithMany(p => p.GeneralJournals)

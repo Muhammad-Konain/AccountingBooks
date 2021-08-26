@@ -15,9 +15,7 @@ namespace AccountsAPI.Models
         public int Id { get; set; }
         public DateTime? EntryDate { get; set; }
         public int? FkVoucher { get; set; }
-        public int? FkAccountbook { get; set; }
 
-        public virtual AccountsBook FkAccountbookNavigation { get; set; }
         public virtual Voucher FkVoucherNavigation { get; set; }
         public virtual ICollection<AccountTransaction> AccountTransactions { get; set; }
     }
