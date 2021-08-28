@@ -16,18 +16,18 @@ namespace AccountsApp.Profiles
         {
             _config = config;
         }
-        public string GetRequest(string endpoint, string body = null)
+        public string GetRequest(string endpoint, string jsonbody = null)
         {
             string baseurl = _config.GetSection("ApiBaseUrl").Value;
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create($"{baseurl}{endpoint}");
             req.Method = "Get";
             req.ContentType = "application/json";
 
-            if (body != null)
+            if (jsonbody != null)
             {
                 using (var sw = new StreamWriter(req.GetRequestStream()))
                 {
-                    sw.Write(body);
+                    sw.Write(jsonbody);
                     sw.Flush();
                 }
             }
@@ -46,17 +46,20 @@ namespace AccountsApp.Profiles
 
         }
 
-        public string PostRequest(string endpoint, string body)
+        public string PostRequest(string endpoint, string jsonbody=null)
         {
             string baseurl = _config.GetSection("ApiBaseUrl").Value;
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create($"{baseurl}{endpoint}");
             req.Method = "POST";
             req.ContentType = "application/json";
-            
-            using (var sw = new StreamWriter(req.GetRequestStream()))
+
+            if (jsonbody != null)
             {
-                sw.Write(body);
-                sw.Flush();
+                using (var sw = new StreamWriter(req.GetRequestStream()))
+                {
+                    sw.Write(jsonbody);
+                    sw.Flush();
+                }
             }
             try
             {

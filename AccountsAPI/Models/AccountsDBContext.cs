@@ -120,13 +120,15 @@ namespace AccountsAPI.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.AccountType).HasColumnName("account_type");
+
                 entity.Property(e => e.Createdate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("createdate");
 
-                entity.Property(e => e.FkAccountType).HasColumnName("fk_account_type");
+                entity.Property(e => e.Createdby).HasColumnName("createdby");
 
-                entity.Property(e => e.FkCreatedby).HasColumnName("fk_createdby");
+                entity.Property(e => e.Editby).HasColumnName("editby");
 
                 entity.Property(e => e.IsTerminal)
                     .HasColumnName("is_terminal")
@@ -134,21 +136,30 @@ namespace AccountsAPI.Models
 
                 entity.Property(e => e.ParentAccount).HasColumnName("parent_account");
 
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("title");
 
-                entity.HasOne(d => d.FkAccountTypeNavigation)
+                entity.HasOne(d => d.AccountTypeNavigation)
                     .WithMany(p => p.TAccounts)
-                    .HasForeignKey(d => d.FkAccountType)
+                    .HasForeignKey(d => d.AccountType)
                     .HasConstraintName("fk_acc_acctype");
 
-                entity.HasOne(d => d.FkCreatedbyNavigation)
-                    .WithMany(p => p.TAccounts)
-                    .HasForeignKey(d => d.FkCreatedby)
+                entity.HasOne(d => d.CreatedbyNavigation)
+                    .WithMany(p => p.TAccountCreatedbyNavigations)
+                    .HasForeignKey(d => d.Createdby)
                     .HasConstraintName("fk_acc_user");
+
+                entity.HasOne(d => d.EditbyNavigation)
+                    .WithMany(p => p.TAccountEditbyNavigations)
+                    .HasForeignKey(d => d.Editby)
+                    .HasConstraintName("fk_taccount_users");
             });
 
             modelBuilder.Entity<User>(entity =>

@@ -8,6 +8,6 @@ namespace AccountsApp.Profiles
     public interface IApiRequestHandler
     {
         string GetRequest(string endpoint, string body = null);
-        string PostRequest(string endpoint, string body);
+        string PostRequest(string endpoint, string body=null);
     }
 }

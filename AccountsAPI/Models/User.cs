@@ -9,7 +9,8 @@ namespace AccountsAPI.Models
     {
         public User()
         {
-            TAccounts = new HashSet<TAccount>();
+            TAccountCreatedbyNavigations = new HashSet<TAccount>();
+            TAccountEditbyNavigations = new HashSet<TAccount>();
         }
 
         public int Id { get; set; }
@@ -20,6 +21,7 @@ namespace AccountsAPI.Models
         public int? FkRoleid { get; set; }
 
         public virtual UserRole FkRole { get; set; }
-        public virtual ICollection<TAccount> TAccounts { get; set; }
+        public virtual ICollection<TAccount> TAccountCreatedbyNavigations { get; set; }
+        public virtual ICollection<TAccount> TAccountEditbyNavigations { get; set; }
     }
 }

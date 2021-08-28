@@ -15,6 +15,11 @@ namespace AccountsAPI.Profiles
             CreateMap<UserLoginDto, User>();
             CreateMap<FinancialYearDto, FinancialYear>();
             CreateMap<FinancialYear, FinancialYearDto>();
+            CreateMap<TAccountDto, TAccount>();
+            CreateMap<TAccount, TAccountDto>();
+
+            CreateMap<WriteTAccountDTO, TAccount>();
+            CreateMap<TAccount, ReadTAccountDto>();
         }
     }
 }

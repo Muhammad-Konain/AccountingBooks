@@ -13,12 +13,12 @@ namespace AccountsAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SetUpController : ControllerBase
+    public class FinancialYearController : ControllerBase
     {
         private AccountsDBContext _context;
         private IMapper _mapper;
 
-        public SetUpController(AccountsDBContext context, IMapper mapper)
+        public FinancialYearController(AccountsDBContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -31,10 +31,10 @@ namespace AccountsAPI.Controllers
             if (currentyear != null)
             {
                 FinancialYearDto yeardto = new FinancialYearDto();
-                var result =JsonConvert.SerializeObject( _mapper.Map(currentyear, yeardto));
+                var result = JsonConvert.SerializeObject(_mapper.Map(currentyear, yeardto));
                 return Ok(result);
             }
-            
+
             return NotFound();
         }
 
@@ -52,11 +52,11 @@ namespace AccountsAPI.Controllers
                 _mapper.Map(year, fiscalyear);
                 return CreatedAtRoute(nameof(GetFinancialYear), new { id = fiscalyear.Id }, fiscalyear);
             }
-            
+
             _context.FinancialYears.Update(year);
             _context.SaveChanges();
-            
-            return Ok(_mapper.Map( year,fiscalyear));
+
+            return Ok(_mapper.Map(year, fiscalyear));
         }
     }
 }
