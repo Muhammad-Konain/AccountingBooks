@@ -18,9 +18,9 @@ namespace AccountsAPI.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public bool? Status { get; set; }
-        public int? FkRoleid { get; set; }
+        public int? Roleid { get; set; }
 
-        public virtual UserRole FkRole { get; set; }
+        public virtual UserRole Role { get; set; }
         public virtual ICollection<TAccount> TAccountCreatedbyNavigations { get; set; }
         public virtual ICollection<TAccount> TAccountEditbyNavigations { get; set; }
     }

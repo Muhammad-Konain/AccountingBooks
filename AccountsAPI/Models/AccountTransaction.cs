@@ -8,12 +8,12 @@ namespace AccountsAPI.Models
     public partial class AccountTransaction
     {
         public int Id { get; set; }
-        public int? FkAccount { get; set; }
-        public int? FkGjentry { get; set; }
+        public int? TaccountId { get; set; }
+        public int? Gjentry { get; set; }
         public decimal? Amount { get; set; }
         public string Direction { get; set; }
 
-        public virtual TAccount FkAccountNavigation { get; set; }
-        public virtual GeneralJournal FkGjentryNavigation { get; set; }
+        public virtual GeneralJournal GjentryNavigation { get; set; }
+        public virtual TAccount Taccount { get; set; }
     }
 }

@@ -1,0 +1,116 @@
+﻿@model AccountsApp.ViewModels.VoucherViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <style>
+        #narsub {
+            color: white;
+        }
+
+        .inp {
+            border: none;
+            width: 100%;
+        }
+
+        .main {
+            background-color: #fff;
+        }
+
+        #toast-container > div {
+            opacity: 1;
+        }
+    </style>
+
+
+    <link rel="stylesheet" type="text/css" href="/css/Form.css" />
+
+
+    <link href="~/lib/toastr.js/toastr.css" rel="stylesheet" />
+    <link href="~/js/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+
+}
+<div class="row">
+    <div class="mt-20 col-10 offset-1">
+        <div class="row">
+
+            <div class="main col-sm-12">
+                <h4>Vouchers</h4>
+
+                <!--<div class="sec-main m-b-20">
+                    <form asp-action="AddEditAccount" method="post">
+                        <input type="hidden" asp-for="Id" value="0" />
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-sm-2 col-form-label">Account Title</label>
+                            <div class="col-sm-4 ui-widget">
+                                <input class="form-control clear" asp-for="Title" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <label for="example-text-input" class="col-sm-2 col-form-label labal">Account Type</label>
+                            <div class="col-sm-4">
+                                <select asp-for="AccountType" class="form-control">
+                                    <option value="1">Asset</option>
+                                    <option value="2">Liability</option>
+                                    <option value="3">Owner Capital</option>
+                                    <option value="4">Owner Withdrawal</option>
+                                    <option value="5">Revenue</option>
+                                    <option value="6">Expense</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row padd">
+                            <div class="col-md-3 offset-md-9 submit">-->
+                                @*<button class="btn color" type="submit">Submit</button>*@
+                                <!--<div style="text-align: right;">
+                                    <button class="btn " style="width: 70px; background-color:darkblue; color:white;" id="cls">Clear</button>
+                                    <button type="submit" class="btn stbbtn" style="width: 70px; background-color:darkblue; color:white;" id="transub">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>-->
+
+               
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table mb-0 datatable table-bordered" id="mygrid">
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th>Voucher Date</th>
+                                        <th></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Voucher voucher in ViewBag.vouchers as List<Voucher>)
+                                    {
+                                        <tr id="vc_@voucher.Id)">
+                                            <td>@voucher.Voucherdate</td>
+                                            <td>@acctype[(int)account.AccountType]</td>
+                                            <td>
+                                                <button class="btn  dropdown-toggle pull-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Actions
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item delacc" href="#">Delete</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/taccount.js"></script>
+}

@@ -26,7 +26,7 @@ namespace AccountsAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTAccount(WriteTAccountDTO taccdto)
+        public IActionResult AddTAccount(CreateTAccountDTO taccdto)
         {
             TAccount taccount = _mapper.Map<TAccount>(taccdto);
             taccount.Createdate = DateTime.Now;
@@ -39,7 +39,7 @@ namespace AccountsAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditTAccount(WriteTAccountDTO taccountdto)
+        public IActionResult EditTAccount(CreateTAccountDTO taccountdto)
         {
             TAccount taccount = _context.TAccounts.Where(w => w.Id == taccountdto.Id).FirstOrDefault();
             if (taccount == null)
