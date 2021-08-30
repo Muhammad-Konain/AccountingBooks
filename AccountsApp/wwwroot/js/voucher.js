@@ -31,7 +31,7 @@
     });
 
     $('#drbtn').click(function () {
-        debugger;
+        //debugger;
         var tbrow = $('.drtable tbody:first').html();
         $('.drtable tbody:first').append(tbrow);
     });

@@ -25,6 +25,12 @@ namespace AccountsAPI.Models
         public virtual AccountType AccountTypeNavigation { get; set; }
         public virtual User CreatedbyNavigation { get; set; }
         public virtual User EditbyNavigation { get; set; }
+
+        public static explicit operator int(TAccount v)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual ICollection<AccountTransaction> AccountTransactions { get; set; }
     }
 }
