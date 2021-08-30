@@ -18,8 +18,17 @@ namespace AccountsAPI.Profiles
             CreateMap<TAccountDto, TAccount>();
             CreateMap<TAccount, TAccountDto>();
 
-            CreateMap<WriteTAccountDTO, TAccount>();
+            CreateMap<CreateTAccountDTO, TAccount>();
             CreateMap<TAccount, ReadTAccountDto>();
+
+            CreateMap<Voucher, VoucherDto>();
+            CreateMap<VoucherDto, Voucher>();
+
+            CreateMap<AccountTransaction, AccountTransactionDto>();
+            CreateMap<AccountTransactionDto, AccountTransaction>();
+
+            CreateMap<ReadVoucherDto, Voucher>();
+            CreateMap<Voucher, ReadVoucherDto>();
         }
     }
 }

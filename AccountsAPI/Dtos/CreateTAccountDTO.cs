@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AccountsAPI.Dtos
 {
-    public class WriteTAccountDTO
+    public class CreateTAccountDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }

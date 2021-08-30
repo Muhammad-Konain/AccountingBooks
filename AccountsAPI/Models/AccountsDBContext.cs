@@ -19,6 +19,7 @@ namespace AccountsAPI.Models
 
         public virtual DbSet<AccountTransaction> AccountTransactions { get; set; }
         public virtual DbSet<AccountType> AccountTypes { get; set; }
+        public virtual DbSet<EntryType> EntryTypes { get; set; }
         public virtual DbSet<FinancialYear> FinancialYears { get; set; }
         public virtual DbSet<GeneralJournal> GeneralJournals { get; set; }
         public virtual DbSet<TAccount> TAccounts { get; set; }
@@ -55,19 +56,19 @@ namespace AccountsAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("direction");
 
-                entity.Property(e => e.FkAccount).HasColumnName("fk_account");
+                entity.Property(e => e.Gjentry).HasColumnName("gjentry");
 
-                entity.Property(e => e.FkGjentry).HasColumnName("fk_gjentry");
+                entity.Property(e => e.TaccountId).HasColumnName("taccount_id");
 
-                entity.HasOne(d => d.FkAccountNavigation)
+                entity.HasOne(d => d.GjentryNavigation)
                     .WithMany(p => p.AccountTransactions)
-                    .HasForeignKey(d => d.FkAccount)
-                    .HasConstraintName("fk_acctrans_taccount");
-
-                entity.HasOne(d => d.FkGjentryNavigation)
-                    .WithMany(p => p.AccountTransactions)
-                    .HasForeignKey(d => d.FkGjentry)
+                    .HasForeignKey(d => d.Gjentry)
                     .HasConstraintName("fk_acctrans_genjournal");
+
+                entity.HasOne(d => d.Taccount)
+                    .WithMany(p => p.AccountTransactions)
+                    .HasForeignKey(d => d.TaccountId)
+                    .HasConstraintName("fk_acctrans_taccount");
             });
 
             modelBuilder.Entity<AccountType>(entity =>
@@ -78,6 +79,18 @@ namespace AccountsAPI.Models
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("title");
+            });
+
+            modelBuilder.Entity<EntryType>(entity =>
+            {
+                entity.ToTable("entry_type");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("title");
             });
@@ -102,15 +115,18 @@ namespace AccountsAPI.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.EntryDate)
-                    .HasColumnType("date")
-                    .HasColumnName("entry_date");
+                entity.Property(e => e.Entrytypeid).HasColumnName("entrytypeid");
 
-                entity.Property(e => e.FkVoucher).HasColumnName("fk_voucher");
+                entity.Property(e => e.Voucherid).HasColumnName("voucherid");
 
-                entity.HasOne(d => d.FkVoucherNavigation)
+                entity.HasOne(d => d.Entrytype)
                     .WithMany(p => p.GeneralJournals)
-                    .HasForeignKey(d => d.FkVoucher)
+                    .HasForeignKey(d => d.Entrytypeid)
+                    .HasConstraintName("fk_generaljournal_entrytype");
+
+                entity.HasOne(d => d.Voucher)
+                    .WithMany(p => p.GeneralJournals)
+                    .HasForeignKey(d => d.Voucherid)
                     .HasConstraintName("fk_gj_voucher");
             });
 
@@ -138,7 +154,7 @@ namespace AccountsAPI.Models
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
@@ -174,13 +190,13 @@ namespace AccountsAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("email");
 
-                entity.Property(e => e.FkRoleid).HasColumnName("fk_roleid");
-
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("password");
+
+                entity.Property(e => e.Roleid).HasColumnName("roleid");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("_status")
@@ -192,9 +208,9 @@ namespace AccountsAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("username");
 
-                entity.HasOne(d => d.FkRole)
+                entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.FkRoleid)
+                    .HasForeignKey(d => d.Roleid)
                     .HasConstraintName("fk_user_roles");
             });
 
@@ -218,15 +234,20 @@ namespace AccountsAPI.Models
 
                 entity.Property(e => e.Createdby).HasColumnName("createdby");
 
-                entity.Property(e => e.FkVouchertype).HasColumnName("fk_vouchertype");
-
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
                     .HasDefaultValueSql("((1))");
 
-                entity.HasOne(d => d.FkVouchertypeNavigation)
+                entity.Property(e => e.Voucherdate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("voucherdate")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Vouchertype).HasColumnName("vouchertype");
+
+                entity.HasOne(d => d.VouchertypeNavigation)
                     .WithMany(p => p.Vouchers)
-                    .HasForeignKey(d => d.FkVouchertype)
+                    .HasForeignKey(d => d.Vouchertype)
                     .HasConstraintName("fk_voucher_vouchertype");
             });
 
