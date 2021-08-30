@@ -78,7 +78,6 @@ namespace AccountsAPI.Controllers
             GeneralJournal generalentry = _context.GeneralJournals.Include(i => i.AccountTransactions).Where(w => w.Voucherid == id).First();
             retdto.Amount=(decimal) generalentry.AccountTransactions.Where(w => w.Direction.ToLower() == "dr").Sum(s => s.Amount);
 
-            //return Ok(JsonConvert.SerializeObject(retdto));
             return Ok(retdto);
         }
         [HttpGet]
@@ -91,12 +90,25 @@ namespace AccountsAPI.Controllers
             else
                 vouchers = _context.Vouchers.Where(w => w.Status == true).ToList();
 
-            List<ReadTAccountDto> taccountdtos = new List<ReadTAccountDto>();
-            _mapper.Map(vouchers, taccountdtos);
+            List< GeneralJournal> gjs = _context.GeneralJournals.ToList();
 
-            //return Ok(JsonConvert.SerializeObject(taccountdtos));
-            return Ok(taccountdtos);
+            var enter2 = gjs.Where(w => vouchers.Select(s => s.Id).ToList().Contains((int)w.Voucherid)).Select(se => new { gen = se.Id, vou = se.Voucherid }).ToList();
+
+            var enter = gjs.Where(w => vouchers.Select(s => s.Id).ToList().Contains((int)w.Voucherid)).Select(se=> se.Id ).ToList();
+
+            var li= _context.AccountTransactions.Where(w => enter.Contains((int)w.Gjentry) && w.Direction.ToLower() == "dr").GroupBy(g => g.Gjentry).Select(s => new { s.Key, sum= s.Sum(su=>su.Amount)}).ToList();
+  
+            List<ReadVoucherDto> readVoucherDtos = new List<ReadVoucherDto>();
+            _mapper.Map(vouchers, readVoucherDtos);
+
+            readVoucherDtos.ForEach(fe =>
+            {
+                int generalid =(int) enter2.Where(w => w.vou == fe.Id).Select(s=>s.gen).First();
+                fe.Amount = (decimal)li.Where(w => w.Key == generalid).Select(s => s.sum).First();
+            });
+
+
+            return Ok(readVoucherDtos);
         }
-
     }
 }
